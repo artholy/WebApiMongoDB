@@ -5,10 +5,13 @@ using NotebookAppApi.Model;
 using NotebookAppApi.Infrastructure;
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
 
 namespace NotebookAppApi.Controllers
 {
     [Produces("application/json")]
+    [Consumes("application/json", "multipart/form-data")]
     [Route("api/[controller]")]
     public class NotesController : Controller
     {
@@ -62,6 +65,19 @@ namespace NotebookAppApi.Controllers
         public void Delete(string id)
         {
             _noteRepository.RemoveNote(id);
+        }
+
+        // POST api/notes/uploadFile
+        [HttpPost("uploadFile")]
+        public async Task<ObjectId> UploadFile(IFormFile file)
+        {
+            return await _noteRepository.UploadFile(file);
+        }
+        // GET api/notes/getFileInfo/d1we24ras41wr
+        [HttpGet("getFileInfo/{id}")]
+        public Task<String> GetFileInfo(string id)
+        {
+          return _noteRepository.GetFileInfo(id);
         }
     }
 }

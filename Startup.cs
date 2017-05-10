@@ -39,7 +39,6 @@ namespace NotebookAppApi
 
             // Add framework services.
             services.AddMvc();
-
             services.Configure<Settings>(options =>
             {
                 options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;

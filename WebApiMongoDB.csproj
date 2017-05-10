@@ -26,6 +26,7 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.1.1" />
     <PackageReference Include="MongoDB.Driver" Version="2.4.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Cors" Version="1.1.2" />
+    <PackageReference Include="MongoDB.Driver.GridFS" Version="2.4.3" />
   </ItemGroup>
 
 </Project>

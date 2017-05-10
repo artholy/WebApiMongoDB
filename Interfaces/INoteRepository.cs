@@ -2,6 +2,10 @@
 using System.Threading.Tasks;
 using NotebookAppApi.Model;
 using MongoDB.Driver;
+using Microsoft.AspNetCore.Http;
+using MongoDB.Bson;
+using MongoDB.Driver.GridFS;
+using System;
 
 namespace NotebookAppApi.Interfaces
 {
@@ -19,5 +23,9 @@ namespace NotebookAppApi.Interfaces
 
         // should be used with high cautious, only in relation with demo setup
         Task<DeleteResult> RemoveAllNotes();
+
+        Task<ObjectId> UploadFile(IFormFile file);
+
+        Task<String> GetFileInfo(string id);
     }
 }

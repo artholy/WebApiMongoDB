@@ -7,6 +7,10 @@ using MongoDB.Driver;
 using NotebookAppApi.Interfaces;
 using NotebookAppApi.Model;
 using MongoDB.Bson;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.Net.Http.Headers;
+using MongoDB.Driver.GridFS;
 
 namespace NotebookAppApi.Data
 {
@@ -130,6 +134,39 @@ namespace NotebookAppApi.Data
             {
                 // log or manage the exception
                 throw ex;
+            }
+        }
+
+        public async Task<ObjectId> UploadFile(IFormFile file)
+        {
+            try
+            {
+                var stream = file.OpenReadStream();
+                var filename = file.FileName;
+                return await _context.Bucket.UploadFromStreamAsync(filename, stream);
+            }
+            catch (Exception ex)
+            {
+                // log or manage the exception
+                return new ObjectId(ex.ToString());
+            } 
+        }
+
+        public async Task<String> GetFileInfo(string id)
+        {
+            GridFSFileInfo info = null;
+            var objectId = new ObjectId(id);
+            try
+            {
+                using (var stream = await _context.Bucket.OpenDownloadStreamAsync(objectId))
+                {
+                    info = stream.FileInfo;
+                }
+                return info.Filename;
+            }
+            catch (Exception)
+            {
+                return "Not Found";
             }
         }
     }
